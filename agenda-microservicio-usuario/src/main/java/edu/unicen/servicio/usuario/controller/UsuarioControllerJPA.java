@@ -4,10 +4,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.hibernate.mapping.ManyToOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +31,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
+@CrossOrigin
 @RequestMapping("usuarios")
 public class UsuarioControllerJPA {
 	
@@ -46,8 +50,9 @@ public class UsuarioControllerJPA {
 	
 	@GetMapping("/") 
 	@CrossOrigin
-	public ResponseEntity<List<Usuario>> getUsers() {
+	public ResponseEntity<List<Usuario>> getUsers(Authentication auth) {
 		try {
+			System.out.println(auth.getName());
 			List<Usuario> usuarios = repository.findAll();
 			if (usuarios.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -114,12 +119,14 @@ public class UsuarioControllerJPA {
 	//LOGIN 
 	
 	@PostMapping("login")
-	public UsuarioDTO login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
+	@CrossOrigin
+	public UsuarioDTO login(@RequestParam("username") String username, @RequestParam("password") String pwd) {
 		
 		Usuario user = repository.findByUserName(username);
 		if(passwordEncoder.matches(pwd, user.getPassword())) {
-			String token = getJWTToken(username);	
+			String token = getJWTToken(user);	
 			UsuarioDTO userLog = new UsuarioDTO(username,token);
+			System.out.println("Se logueo");
 			return userLog;
 		}
 		return null;
@@ -129,6 +136,7 @@ public class UsuarioControllerJPA {
 	//REGISTRO (ALTA)
 	
 	@PostMapping("register")
+	@CrossOrigin
 	public ResponseEntity<Usuario> registro(@RequestBody Usuario u) {
 		u.setId_usuario(null);
 		try {
@@ -145,15 +153,15 @@ public class UsuarioControllerJPA {
 		
 	}
 
-	private String getJWTToken(String username) {
+	private String getJWTToken(Usuario user) {
 		String secretKey = "mySecretKey";
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
 				.commaSeparatedStringToAuthorityList("ROLE_USER");
-		
 		String token = Jwts
 				.builder()
 				.setId("softtekJWT")
-				.setSubject(username)
+				.setSubject(user.getNombre_usuario())
+				.claim("user_id", user.getId_usuario())
 				.claim("authorities",
 						grantedAuthorities.stream()
 								.map(GrantedAuthority::getAuthority)

@@ -21,13 +21,13 @@ public class Viaje {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_viaje;
 	@Column
-	private Long nombre;
+	private String nombre;
 	@Column
 	private String ciudad_origen;
 	@Column
 	private String ciudad_destino;
 	@Column
-	private String detalle;
+	private String descripcion;
 	@Column
 	private Long id_usuario;
 	

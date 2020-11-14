@@ -2,13 +2,13 @@ package edu.unicen.servicio.usuario.dto;
 
 public class UsuarioDTO {
 	
-	String nombre_usuario;
+	String username;
 	
 	String token;
 
 	public UsuarioDTO(String nombre_usuario, String token) {
 		super();
-		this.nombre_usuario = nombre_usuario;
+		this.username = nombre_usuario;
 		this.token = token;
 	}
 
@@ -17,11 +17,11 @@ public class UsuarioDTO {
 	}
 
 	public String getNombre_usuario() {
-		return nombre_usuario;
+		return username;
 	}
 
 	public void setNombre_usuario(String nombre_usuario) {
-		this.nombre_usuario = nombre_usuario;
+		this.username = nombre_usuario;
 	}
 
 	public String getToken() {

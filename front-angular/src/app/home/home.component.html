@@ -3,7 +3,8 @@
   <p>{{ content }}</p>
 </header> -->
 <h1 class="display-4 text-center">Viajes del Usuario</h1>
-<div class="">
+<div class="text-right">
+  <a href="#" [routerLink]="['/viaje/create']" class="btn btn-outline-success">Agregar Viaje</a>
 </div>
 <table class="table">
   <thead class="thead-dark">
@@ -24,9 +25,9 @@
         <td>{{viaje.descripcion}}</td>
         <!-- <td><button type="button" class="btn btn-outline-dark">Ver Mas</button></td> -->
         <td>
-          <a href="#" [routerLink]="['/viaje/', viaje.id_viaje, 'ver']" class="btn btn-info">Ver</a>
-          <a href="#" [routerLink]="['/viaje/', viaje.id_viaje, 'editar']" class="btn btn-primary">Editar</a>
-          <button type="button" (click)="deleteViaje(viaje.id_viaje)" class="btn btn-danger">Eliminar</button>
+          <a href="#" [routerLink]="['/viaje/', viaje.id_viaje, 'ver']" class="btn btn-outline-info">Ver</a>
+          <a href="#" [routerLink]="['/viaje/', viaje.id_viaje, 'editar']" class="btn btn-outline-primary">Editar</a>
+          <button type="button" (click)="deleteViaje(viaje.id_viaje)" class="btn btn-outline-danger">Eliminar</button>
         </td>
       </tr>
     </ng-container>

@@ -1,0 +1,117 @@
+<div class="col-md-12">
+  <div class="card card-container">
+    <form
+      *ngIf="!isSuccessful"
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+
+    <div class="form-group">
+      <label for="titulo">Titulo</label>
+      <input
+        type="text"
+        class="form-control"
+        name="titulo"
+        [(ngModel)]="form.titulo"
+        required
+        titulo
+        #titulo="ngModel"
+      />
+      <div class="alert-danger" *ngIf="f.submitted && titulo.invalid">
+        <div *ngIf="email.errors.required">Titulo es requerido</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="ciudad_origen">Ciudad Origen</label>
+      <input
+        type="text"
+        class="form-control"
+        name="ciudad_origen"
+        [(ngModel)]="form.ciudad_origen"
+        required
+        ciudad_origen
+        #ciudad_origen="ngModel"
+      />
+      <div class="alert-danger" *ngIf="f.submitted && ciudad_origen.invalid">
+        <div *ngIf="email.errors.required">Ciudad de origen es requerido</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="ciudad_destino">Ciudad Destino</label>
+      <input
+        type="text"
+        class="form-control"
+        name="ciudad_destino"
+        [(ngModel)]="form.ciudad_destino"
+        required
+        ciudad_destino
+        #ciudad_destino="ngModel"
+      />
+      <div class="alert-danger" *ngIf="f.submitted && ciudad_destino.invalid">
+        <div *ngIf="email.errors.required">Ciudad de destino es requerido</div>
+      </div>
+    </div>
+
+
+      <div class="form-group">
+        <label for="fecha_inicio">Fecha de Inicio</label>
+        <input
+          type="date"
+          class="form-control"
+          name="fecha_inicio"
+          [(ngModel)]="form.fecha_inicio"
+          required
+          fecha_inicio
+          #fecha_inicio="ngModel"
+        />
+        <div class="alert-danger" *ngIf="f.submitted && fecha_inicio.invalid">
+          <div *ngIf="username.errors.required">Fecha de inicio es requerida</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="fecha_fin">Fecha de Fin</label>
+        <input
+          type="date"
+          class="form-control"
+          name="fecha_fin"
+          [(ngModel)]="form.fecha_fin"
+          required
+          fecha_fin
+          #fecha_fin="ngModel"
+        />
+        <div class="alert-danger" *ngIf="f.submitted && fecha_fin.invalid">
+          <div *ngIf="username.errors.required">Fecha de fin es requerida</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Descripcion</label>
+        <input
+          type="<textarea"
+          class="form-control"
+          name="descripcion"
+          [(ngModel)]="form.descripcion"
+          required
+          descripcion
+          #descripcion="ngModel"
+        />
+        <div class="alert-danger" *ngIf="f.submitted && descripcion.invalid">
+          <div *ngIf="email.errors.required">Descripcion es requerido</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary btn-block">Agregar Viaje</button>
+      </div>
+      <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+        Error al agregar el viaje, revise los campos!<br />{{ errorMessage }}
+      </div>
+    </form>
+
+    <div class="alert alert-success" *ngIf="isSuccessful">
+      El viaje se ha agregado a la agenda.
+    </div>
+  </div>
+</div>

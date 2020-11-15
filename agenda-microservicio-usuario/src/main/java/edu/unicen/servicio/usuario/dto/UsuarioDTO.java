@@ -2,14 +2,17 @@ package edu.unicen.servicio.usuario.dto;
 
 public class UsuarioDTO {
 	
+	Long id;
+	
 	String username;
 	
 	String token;
 	
 	String[] roles;
 
-	public UsuarioDTO(String nombre_usuario, String token, String[] roles) {
+	public UsuarioDTO(Long id, String nombre_usuario, String token, String[] roles) {
 		super();
+		this.id = id;
 		this.username = nombre_usuario;
 		this.token = token;
 		this.roles = roles;
@@ -38,6 +41,15 @@ public class UsuarioDTO {
 	public void setRoles(String[] roles) {
 		this.roles = roles;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	
 	
 

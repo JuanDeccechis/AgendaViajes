@@ -1,0 +1,36 @@
+<div class="container">
+  <!-- <header class="jumbotron">
+  <p>{{ content }}</p>
+</header> -->
+<h1 class="display-4 text-center">Viajes del Usuario</h1>
+<div class="">
+</div>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <ng-container *ngFor ="let table of tables">
+        <th scope="col">{{table.nombre}}</th>
+      </ng-container>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor ="let viaje of content">
+      <tr>
+        <td>{{viaje.nombre}}</td>
+        <td>{{viaje.ciudad_origen}}</td>
+        <td>{{viaje.ciudad_destino}}</td>
+        <td>{{viaje.fecha_inicio}}</td>
+        <td>{{viaje.fecha_fin}}</td>
+        <td>{{viaje.descripcion}}</td>
+        <!-- <td><button type="button" class="btn btn-outline-dark">Ver Mas</button></td> -->
+        <td>
+          <a href="#" [routerLink]="['/viaje/', viaje.id_viaje, 'ver']" class="btn btn-info">Ver</a>
+          <a href="#" [routerLink]="['/viaje/', viaje.id_viaje, 'editar']" class="btn btn-primary">Editar</a>
+          <button type="button" (click)="deleteViaje(viaje.id_viaje)" class="btn btn-danger">Eliminar</button>
+        </td>
+      </tr>
+    </ng-container>
+
+  </tbody>
+</table>
+</div>

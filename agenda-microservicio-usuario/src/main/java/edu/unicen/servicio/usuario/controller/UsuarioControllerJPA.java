@@ -125,9 +125,15 @@ public class UsuarioControllerJPA {
 		Usuario user = repository.findByUserName(username);
 		if(passwordEncoder.matches(pwd, user.getPassword())) {
 			String token = getJWTToken(user);	
-			UsuarioDTO userLog = new UsuarioDTO(username,token);
-			System.out.println("Se logueo");
-			return userLog;
+			if(user.isAdmin()) {
+				String[] roles = {"ROLE_USER","ROLE_ADMIN"};
+				UsuarioDTO userLog = new UsuarioDTO(username,token,roles);
+				return userLog;
+			} else 	{
+				String[] roles = {"ROLE_USER"};
+				UsuarioDTO userLog = new UsuarioDTO(username,token,roles);
+				return userLog;
+			}			
 		}
 		return null;
 		
@@ -155,8 +161,14 @@ public class UsuarioControllerJPA {
 
 	private String getJWTToken(Usuario user) {
 		String secretKey = "mySecretKey";
-		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-				.commaSeparatedStringToAuthorityList("ROLE_USER");
+		List<GrantedAuthority> grantedAuthorities;
+		if(user.isAdmin()) {
+			grantedAuthorities = AuthorityUtils
+				.commaSeparatedStringToAuthorityList("ROLE_USER, ROLE_ADMIN");
+		} else {
+			grantedAuthorities = AuthorityUtils
+					.commaSeparatedStringToAuthorityList("ROLE_USER");
+		}
 		String token = Jwts
 				.builder()
 				.setId("softtekJWT")
@@ -167,7 +179,7 @@ public class UsuarioControllerJPA {
 								.map(GrantedAuthority::getAuthority)
 								.collect(Collectors.toList()))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 600000))
+				.setExpiration(new Date(System.currentTimeMillis() + 6000000))
 				.signWith(SignatureAlgorithm.HS512,
 						secretKey.getBytes()).compact();
 

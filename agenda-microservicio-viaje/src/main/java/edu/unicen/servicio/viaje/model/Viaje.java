@@ -44,10 +44,11 @@ public class Viaje {
 	private String descripcion;
 	
 	@ManyToOne
-//	@JoinColumn(name="id_usuario", insertable=false, updatable=false)
+	@JsonIgnore
 	private Usuario usuario;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "viaje")
+	@JsonIgnore
 	private List<Plan> planes;
 	
 	public Viaje() {

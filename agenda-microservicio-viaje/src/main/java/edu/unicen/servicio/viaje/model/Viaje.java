@@ -21,7 +21,7 @@ public class Viaje {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_viaje;
 	@Column
-	private Long nombre;
+	private String nombre;
 	@Column
 	private String ciudad_origen;
 	@Column
@@ -37,7 +37,7 @@ public class Viaje {
 	}
 
 
-	public Viaje(Long id_viaje, Long nombre, String ciudad_origen, String ciudad_destino, String detalle,
+	public Viaje(Long id_viaje, String nombre, String ciudad_origen, String ciudad_destino, String detalle,
 			Long id_usuario) {
 		super();
 		this.id_viaje = id_viaje;

@@ -24,7 +24,7 @@ public class AgendaMicroservicioUsuarioApplication {
 
 
 	@EnableWebSecurity
-	@ComponentScan(basePackages = { "com.baeldung.security" })
+	@ComponentScan(basePackages = { "com.baeldung.security","(default package)" })
 	@Configuration
 	class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -35,6 +35,7 @@ public class AgendaMicroservicioUsuarioApplication {
 			.authorizeRequests()
 			.antMatchers(HttpMethod.POST, "/usuarios/login").permitAll()
 			.antMatchers(HttpMethod.POST, "/usuarios/register").permitAll()
+			.mvcMatchers("/swagger-ui/**", "/configuration/**", "/swagger-resources/**", "/v2/api-docs","/v3/api-docs","/webjars/**").permitAll()
 			.anyRequest().authenticated();
 			
 		}

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.unicen.servicio.viaje.dto.ViajeDTO;
 import edu.unicen.servicio.viaje.model.Viaje;
 import edu.unicen.servicio.viaje.repository.ViajeRepository;
 

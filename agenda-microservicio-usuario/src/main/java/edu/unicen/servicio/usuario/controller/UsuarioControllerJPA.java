@@ -26,9 +26,12 @@ import edu.unicen.servicio.usuario.model.Usuario;
 import edu.unicen.servicio.usuario.repository.UsuarioRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
 @RequestMapping("usuarios")
+@Api(value="UsuarioControllerJpa", description="REST API for registration")
 public class UsuarioControllerJPA {
 	
 	@Qualifier("usuarioRepository")
@@ -42,8 +45,7 @@ public class UsuarioControllerJPA {
 		this.repository = null;
 	}
 	
-	
-	
+	@ApiOperation(value="Get a list with all users",response=List.class)
 	@GetMapping("/") 
 	@CrossOrigin
 	public ResponseEntity<List<Usuario>> getUsers() {
@@ -58,10 +60,10 @@ public class UsuarioControllerJPA {
 		}
 
 	}
-	
+	@ApiOperation(value="Get one user",response=Usuario.class)
 	@GetMapping("/{id}") 
 	@CrossOrigin
-	public ResponseEntity<Optional<Usuario>> getUserById(@PathVariable Long id) {
+	public ResponseEntity<Optional<Usuario>> getUserById(@Parameter(required = true, description = "id from user")  @PathVariable Long id) {
 		try {
 			Optional<Usuario> usuarios = repository.findById(id);
 			if (usuarios.isEmpty()) {
@@ -73,7 +75,7 @@ public class UsuarioControllerJPA {
 		}
 
 	}
-	
+	@ApiOperation(value="Get one user by userName",response=Usuario.class)
 	@GetMapping("/username/{username}") 
 	@CrossOrigin
 	public ResponseEntity<Usuario> getUserByUserName(@PathVariable String username) {
@@ -88,7 +90,7 @@ public class UsuarioControllerJPA {
 		}
 
 	}
-	
+	@ApiOperation(value="Drop a user by id")
 	@DeleteMapping("/{id}")
 	@CrossOrigin
 	public ResponseEntity<String> dropUsuario(@PathVariable Long id) { 
@@ -99,7 +101,7 @@ public class UsuarioControllerJPA {
 			return new ResponseEntity<>("El usuario no existe o no se pudo eliminar",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+	@ApiOperation(value="Update user by id",response=Usuario.class)
 	@PutMapping("/{id}")
 	@CrossOrigin
 	public ResponseEntity<Usuario> updateCliente(@RequestBody Usuario u, @PathVariable Long id) { 
@@ -112,9 +114,9 @@ public class UsuarioControllerJPA {
 	
 	
 	//LOGIN 
-	
+	@ApiOperation(value="Log a user with user and pass",response=UsuarioDTO.class)
 	@PostMapping("login")
-	public UsuarioDTO login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
+	public UsuarioDTO login(@Parameter(required = true, description = "name from user")@RequestParam("user") String username, @Parameter(required = true, description = "password") @RequestParam("password") String pwd) {
 		
 		Usuario user = repository.findByUserName(username);
 		if(passwordEncoder.matches(pwd, user.getPassword())) {
@@ -127,7 +129,7 @@ public class UsuarioControllerJPA {
 	}
 	
 	//REGISTRO (ALTA)
-	
+	@ApiOperation(value="Register a new user",response=Usuario.class)
 	@PostMapping("register")
 	public ResponseEntity<Usuario> registro(@RequestBody Usuario u) {
 		u.setId_usuario(null);
@@ -144,7 +146,7 @@ public class UsuarioControllerJPA {
 		}
 		
 	}
-
+	@ApiOperation(value="Get a token",response=String.class)
 	private String getJWTToken(String username) {
 		String secretKey = "mySecretKey";
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils

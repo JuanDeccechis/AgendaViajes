@@ -2,26 +2,25 @@ package edu.unicen.servicio.usuario.dto;
 
 public class UsuarioDTO {
 	
-	String nombre_usuario;
+	String username;
 	
 	String token;
+	
+	String[] roles;
 
-	public UsuarioDTO(String nombre_usuario, String token) {
+	public UsuarioDTO(String nombre_usuario, String token, String[] roles) {
 		super();
-		this.nombre_usuario = nombre_usuario;
+		this.username = nombre_usuario;
 		this.token = token;
+		this.roles = roles;
 	}
 
-	public UsuarioDTO() {
-		super();
+	public String getUsername() {
+		return username;
 	}
 
-	public String getNombre_usuario() {
-		return nombre_usuario;
-	}
-
-	public void setNombre_usuario(String nombre_usuario) {
-		this.nombre_usuario = nombre_usuario;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getToken() {
@@ -31,7 +30,17 @@ public class UsuarioDTO {
 	public void setToken(String token) {
 		this.token = token;
 	}
+
+	public String[] getRoles() {
+		return roles;
+	}
+
+	public void setRoles(String[] roles) {
+		this.roles = roles;
+	}
 	
+	
+
 	
 	
 }

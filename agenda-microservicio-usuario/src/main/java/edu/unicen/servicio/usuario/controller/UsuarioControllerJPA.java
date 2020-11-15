@@ -4,10 +4,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.hibernate.mapping.ManyToOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +33,7 @@ import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
+@CrossOrigin
 @RequestMapping("usuarios")
 @Api(value="UsuarioControllerJpa", description="REST API for registration")
 public class UsuarioControllerJPA {
@@ -48,8 +52,9 @@ public class UsuarioControllerJPA {
 	@ApiOperation(value="Get a list with all users",response=List.class)
 	@GetMapping("/") 
 	@CrossOrigin
-	public ResponseEntity<List<Usuario>> getUsers() {
+	public ResponseEntity<List<Usuario>> getUsers(Authentication auth) {
 		try {
+			System.out.println(auth.getName());
 			List<Usuario> usuarios = repository.findAll();
 			if (usuarios.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -120,9 +125,16 @@ public class UsuarioControllerJPA {
 		
 		Usuario user = repository.findByUserName(username);
 		if(passwordEncoder.matches(pwd, user.getPassword())) {
-			String token = getJWTToken(username);	
-			UsuarioDTO userLog = new UsuarioDTO(username,token);
-			return userLog;
+			String token = getJWTToken(user);	
+			if(user.isAdmin()) {
+				String[] roles = {"ROLE_USER","ROLE_ADMIN"};
+				UsuarioDTO userLog = new UsuarioDTO(username,token,roles);
+				return userLog;
+			} else 	{
+				String[] roles = {"ROLE_USER"};
+				UsuarioDTO userLog = new UsuarioDTO(username,token,roles);
+				return userLog;
+			}			
 		}
 		return null;
 		
@@ -131,6 +143,7 @@ public class UsuarioControllerJPA {
 	//REGISTRO (ALTA)
 	@ApiOperation(value="Register a new user",response=Usuario.class)
 	@PostMapping("register")
+	@CrossOrigin
 	public ResponseEntity<Usuario> registro(@RequestBody Usuario u) {
 		u.setId_usuario(null);
 		try {
@@ -147,21 +160,28 @@ public class UsuarioControllerJPA {
 		
 	}
 	@ApiOperation(value="Get a token",response=String.class)
-	private String getJWTToken(String username) {
+
+	private String getJWTToken(Usuario user) {
 		String secretKey = "mySecretKey";
-		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-				.commaSeparatedStringToAuthorityList("ROLE_USER");
-		
+		List<GrantedAuthority> grantedAuthorities;
+		if(user.isAdmin()) {
+			grantedAuthorities = AuthorityUtils
+				.commaSeparatedStringToAuthorityList("ROLE_USER, ROLE_ADMIN");
+		} else {
+			grantedAuthorities = AuthorityUtils
+					.commaSeparatedStringToAuthorityList("ROLE_USER");
+		}
 		String token = Jwts
 				.builder()
 				.setId("softtekJWT")
-				.setSubject(username)
+				.setSubject(user.getNombre_usuario())
+				.claim("user_id", user.getId_usuario())
 				.claim("authorities",
 						grantedAuthorities.stream()
 								.map(GrantedAuthority::getAuthority)
 								.collect(Collectors.toList()))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 600000))
+				.setExpiration(new Date(System.currentTimeMillis() + 6000000))
 				.signWith(SignatureAlgorithm.HS512,
 						secretKey.getBytes()).compact();
 

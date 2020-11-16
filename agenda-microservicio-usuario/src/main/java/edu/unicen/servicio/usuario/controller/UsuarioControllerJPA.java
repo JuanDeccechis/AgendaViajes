@@ -36,6 +36,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 @CrossOrigin
 @RequestMapping("usuarios")
 @Api(value="UsuarioControllerJpa", description="REST API for registration")
+@ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
 public class UsuarioControllerJPA {
 	
 	@Qualifier("usuarioRepository")

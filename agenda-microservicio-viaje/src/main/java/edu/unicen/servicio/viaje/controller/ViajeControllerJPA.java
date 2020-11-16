@@ -20,23 +20,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.unicen.servicio.viaje.model.Plan;
+import edu.unicen.servicio.viaje.model.Transporte;
 import edu.unicen.servicio.viaje.model.Viaje;
+import edu.unicen.servicio.viaje.repository.PlanRepository;
 import edu.unicen.servicio.viaje.repository.ViajeRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("viajes")
+@Api(value="ViajeControllerJpa", description="REST API for travels")
 public class ViajeControllerJPA {
 	
 	@Qualifier("viajeRepository")
 	@Autowired
 	private ViajeRepository repository = null;
+	private PlanRepository repositoryplan=null;
 	
 	public ViajeControllerJPA (@Qualifier("viajeRepository") ViajeRepository repository) {
 		this.repository = null;
 	}
 	
 	
-	
+	@ApiOperation(value="Get a list with all travels",response=List.class)
 	@GetMapping("/") 
 	@CrossOrigin
 	public ResponseEntity<List<Viaje>> getViajes(Authentication auth) {
@@ -52,7 +59,7 @@ public class ViajeControllerJPA {
 		}
 
 	}
-	
+	@ApiOperation(value="Get a list with  travels by id",response=List.class)
 	@GetMapping("/{id}") 
 	@CrossOrigin
 	public ResponseEntity<Optional<Viaje>> getViajeById(@PathVariable Long id) {
@@ -68,21 +75,7 @@ public class ViajeControllerJPA {
 
 	}
 	
-	@GetMapping("/viajes/{id}") 
-	@CrossOrigin
-	public ResponseEntity<Viaje> getViajeByName(@PathVariable Long idViaje) {
-		try {
-			Viaje viajes = repository.findByName(idViaje);
-			if (viajes == null) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-			return new ResponseEntity<>(viajes, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-	}
-	
+	@ApiOperation(value="Drop travel by id",response=List.class)
 	@DeleteMapping("/{id}")
 	@CrossOrigin
 	public ResponseEntity<String> dropViaje(@PathVariable Long id) { 
@@ -93,14 +86,14 @@ public class ViajeControllerJPA {
 			return new ResponseEntity<>("El viaje no existe o no se pudo eliminar",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+	@ApiOperation(value="add travel",response=List.class)
 	@PostMapping("/")
 	@CrossOrigin
 	public ResponseEntity<Viaje> agregarViaje(@RequestBody Viaje v) { 
 		return new ResponseEntity<>(repository.save(v), HttpStatus.OK);
 	}
 
-	
+	@ApiOperation(value="update travel with a new travel and id",response=List.class)
 	@PutMapping("/{id}")
 	@CrossOrigin
 	public ResponseEntity<Viaje> updateViaje(@RequestBody Viaje v, @PathVariable Long id) { 
@@ -111,26 +104,14 @@ public class ViajeControllerJPA {
 		}
 	}
 	
-	
-	/*private String getJWTToken(String username) {
-		String secretKey = "mySecretKey";
-		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-				.commaSeparatedStringToAuthorityList("ROLE_USER");
-		
-		String token = Jwts
-				.builder()
-				.setId("softtekJWT")
-				.setSubject(username)
-				.claim("authorities",
-						grantedAuthorities.stream()
-								.map(GrantedAuthority::getAuthority)
-								.collect(Collectors.toList()))
-				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 600000))
-				.signWith(SignatureAlgorithm.HS512,
-						secretKey.getBytes()).compact();
-
-		return "Bearer " + token;
-	}*/
+	//agregar un plan a un viaje
+	@ApiOperation(value="add new plan to travel ",response=List.class)
+	@PostMapping("/{id}/plan")
+	public ResponseEntity<Plan> agregarPlan(@RequestBody Transporte p, @PathVariable Long id ) { 
+		Viaje v =new Viaje();
+		v.setId_viaje(id);
+		p.setViaje(v);
+		return new ResponseEntity<>(repositoryplan.save(p), HttpStatus.OK);
+	}
 
 }

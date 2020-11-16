@@ -43,6 +43,7 @@ public class AgendaMicroservicioViajeApplication {
 			.and()
 			.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests()
+			.mvcMatchers("/swagger-ui/**", "/configuration/**", "/swagger-resources/**", "/v2/api-docs","/v3/api-docs","/webjars/**").permitAll()
 			.anyRequest().authenticated();
 			
 		}

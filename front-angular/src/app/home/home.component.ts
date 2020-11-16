@@ -10,7 +10,7 @@ export class HomeComponent implements OnInit {
   content: string;
   tables = [
     {
-      "nombre":"Nombre",
+      "nombre":"Titulo",
     },
     {
       "nombre":"Destino",

@@ -129,11 +129,11 @@ public class UsuarioControllerJPA {
 			String token = getJWTToken(user);	
 			if(user.isAdmin()) {
 				String[] roles = {"ROLE_USER","ROLE_ADMIN"};
-				UsuarioDTO userLog = new UsuarioDTO(username,token,roles);
+				UsuarioDTO userLog = new UsuarioDTO(user.getId_usuario(),username,token,roles);
 				return userLog;
 			} else 	{
 				String[] roles = {"ROLE_USER"};
-				UsuarioDTO userLog = new UsuarioDTO(username,token,roles);
+				UsuarioDTO userLog = new UsuarioDTO(user.getId_usuario(),username,token,roles);
 				return userLog;
 			}			
 		}

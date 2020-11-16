@@ -9,13 +9,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
@@ -23,6 +21,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "viaje")
+@JsonIgnoreProperties(allowSetters = true, value = {"usuario"})
 public class Viaje {
 	
 	@Id
@@ -44,11 +43,10 @@ public class Viaje {
 	private String descripcion;
 	
 	@ManyToOne
-	@JsonIgnore
 	private Usuario usuario;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "viaje")
-	@JsonIgnore
+//	@JsonIgnore
 	private List<Plan> planes;
 	
 	public Viaje() {

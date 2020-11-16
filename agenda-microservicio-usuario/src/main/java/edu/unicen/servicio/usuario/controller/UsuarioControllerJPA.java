@@ -122,7 +122,7 @@ public class UsuarioControllerJPA {
 	//LOGIN 
 	@ApiOperation(value="Log a user with user and pass",response=UsuarioDTO.class)
 	@PostMapping("login")
-	public UsuarioDTO login(@Parameter(required = true, description = "name from user")@RequestParam("user") String username, @Parameter(required = true, description = "password") @RequestParam("password") String pwd) {
+	public UsuarioDTO login(@Parameter(required = true, description = "name from user")@RequestParam("username") String username, @Parameter(required = true, description = "password") @RequestParam("password") String pwd) {
 		
 		Usuario user = repository.findByUserName(username);
 		if(passwordEncoder.matches(pwd, user.getPassword())) {

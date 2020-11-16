@@ -16,9 +16,18 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import lombok.Data;
-
+@JsonTypeInfo(
+		  use = JsonTypeInfo.Id.NAME,
+		  include = JsonTypeInfo.As.PROPERTY, property = "type"
+		)
+		@JsonSubTypes({
+		    @JsonSubTypes.Type(value = Transporte.class, name = "Transporte"),
+		    @JsonSubTypes.Type(value = Alojamiento.class, name = "Alojamiento")
+		})
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data	
@@ -26,6 +35,7 @@ import lombok.Data;
 public abstract class Plan implements Serializable{
 	
 	private static final long serialVersionUID = -9039211687587851532L;
+	
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

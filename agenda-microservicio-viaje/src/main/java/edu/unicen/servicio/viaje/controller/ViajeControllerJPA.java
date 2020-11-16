@@ -36,10 +36,13 @@ public class ViajeControllerJPA {
 	@Qualifier("viajeRepository")
 	@Autowired
 	private ViajeRepository repository = null;
+	@Qualifier("planRepository")
+	@Autowired
 	private PlanRepository repositoryplan=null;
 	
-	public ViajeControllerJPA (@Qualifier("viajeRepository") ViajeRepository repository) {
+	public ViajeControllerJPA (@Qualifier("viajeRepository") ViajeRepository repository, @Qualifier("planRepository") PlanRepository repositoryplan) {
 		this.repository = null;
+		this.repositoryplan = null;
 	}
 	
 	
@@ -107,7 +110,7 @@ public class ViajeControllerJPA {
 	//agregar un plan a un viaje
 	@ApiOperation(value="add new plan to travel ",response=List.class)
 	@PostMapping("/{id}/plan")
-	public ResponseEntity<Plan> agregarPlan(@RequestBody Transporte p, @PathVariable Long id ) { 
+	public ResponseEntity<Plan> agregarPlan(@RequestBody Plan p, @PathVariable Long id ) { 
 		Viaje v =new Viaje();
 		v.setId_viaje(id);
 		p.setViaje(v);

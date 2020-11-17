@@ -9,6 +9,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { CreateComponent } from './viaje/create/create.component';
+import { ViewComponent } from './viaje/view/view.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
   { path: 'viaje/create', component: CreateComponent },
+  { path: 'viaje/:viajeId/ver', component: ViewComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];
 

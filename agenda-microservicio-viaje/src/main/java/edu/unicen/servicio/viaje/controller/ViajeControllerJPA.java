@@ -1,5 +1,6 @@
 package edu.unicen.servicio.viaje.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import edu.unicen.servicio.viaje.dto.UsuariosFavoritosReporteDTO;
+import edu.unicen.servicio.viaje.dto.ZonasFavoritasReporteDTO;
+import edu.unicen.servicio.viaje.dto.ZonasGeograficasVisitadasDTO;
 import edu.unicen.servicio.viaje.model.Plan;
 import edu.unicen.servicio.viaje.model.Transporte;
 import edu.unicen.servicio.viaje.model.Viaje;
@@ -27,6 +33,7 @@ import edu.unicen.servicio.viaje.repository.PlanRepository;
 import edu.unicen.servicio.viaje.repository.ViajeRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
 @RequestMapping("viajes")
@@ -115,6 +122,98 @@ public class ViajeControllerJPA {
 		v.setId_viaje(id);
 		p.setViaje(v);
 		return new ResponseEntity<>(repositoryplan.save(p), HttpStatus.OK);
+	}
+	
+	//reporte de viajes del usuario en un intervalo de fechas
+	@ApiOperation(value="Get a list with travels with filters by Dates",response=List.class)
+	@GetMapping("/porFechas") 
+	@CrossOrigin
+	public ResponseEntity<List<Viaje>> getViajesPorFechas(Authentication auth, @Parameter(required = true, description = "initDate")@RequestParam("fechaInicio") String fechaInicio, @Parameter(required = true, description = "endDate")@RequestParam("fechaFin") String fechaFin) {
+		try {
+			System.out.println(auth.getName());
+			Date dateInicio = new SimpleDateFormat("yyyy-MM-dd").parse(fechaInicio);
+			Date dateFin = new SimpleDateFormat("yyyy-MM-dd").parse(fechaFin);
+			List<Viaje> viajes= repository.findAllByUserNameAndDates(auth.getName(), dateInicio, dateFin);
+			if (viajes.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(viajes, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
+	//reporte de viajes del usuario por destino
+	@ApiOperation(value="Get a list with travels with filtersByDestiny",response=List.class)
+	@GetMapping("/porDestino") 
+	@CrossOrigin
+	public ResponseEntity<List<Viaje>> getViajesPorDestino(Authentication auth, @Parameter(required = true, description = "destinyArea")@RequestParam("zonaGeograficaDestino") String zonaGeograficaDestino) {
+		try {
+			System.out.println(auth.getName());
+			List<Viaje> viajes= repository.findAllByUserNameAndDestiny(auth.getName(), zonaGeograficaDestino);
+			if (viajes.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(viajes, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
+	//reporte usuarios que mas viajes acumularon
+	@ApiOperation(value="Get users with more travels",response=List.class)
+	@GetMapping("/usuariosFavoritos") 
+	@CrossOrigin
+	public ResponseEntity<List<UsuariosFavoritosReporteDTO>> getUsuariosMasViajes(Authentication auth) {
+		try {
+			System.out.println(auth.getName());
+			List<UsuariosFavoritosReporteDTO> usuariosRankeados= repository.usuariosRankeados();
+			if (usuariosRankeados.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(usuariosRankeados, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
+	//reporte zonas geograficas mas visitadas
+	@ApiOperation(value="Get destinies more visited",response=List.class)
+	@GetMapping("/zonasMasVisitadas") 
+	@CrossOrigin
+	public ResponseEntity<List<ZonasFavoritasReporteDTO>> getDestinosMasVisitados(Authentication auth) {
+		try {
+			System.out.println(auth.getName());
+			List<ZonasFavoritasReporteDTO> destinosRankeados= repository.destinosRankeados();
+			if (destinosRankeados.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(destinosRankeados, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
+	//todas las zonas geograficas visitadas por algun usuario
+	@ApiOperation(value="Get destinies more visited",response=List.class)
+	@GetMapping("/zonasGeograficas") 
+	@CrossOrigin
+	public ResponseEntity<List<ZonasGeograficasVisitadasDTO>> getDestinosVisitados(Authentication auth) {
+		try {
+			System.out.println(auth.getName());
+			List<ZonasGeograficasVisitadasDTO> destinos= repository.destinos();
+			if (destinos.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(destinos, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
 	}
 
 }

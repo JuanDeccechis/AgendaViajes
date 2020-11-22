@@ -106,6 +106,16 @@ public class ViajeControllerJPA {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	@ApiOperation(value="update travel with a new travel and id",response=List.class)
+	@PutMapping("/plan/{id}")
+	@CrossOrigin
+	public ResponseEntity<Plan> updatePlan(@RequestBody Plan p, @PathVariable Long id) { 
+		if (repositoryplan.existsById(id)) {
+			return new ResponseEntity<>(repositoryplan.save(p), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 	
 	//agregar un plan a un viaje
 	@ApiOperation(value="add new plan to travel ",response=List.class)
@@ -115,6 +125,18 @@ public class ViajeControllerJPA {
 		v.setId_viaje(id);
 		p.setViaje(v);
 		return new ResponseEntity<>(repositoryplan.save(p), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Drop plan by id",response=List.class)
+	@DeleteMapping("/{id}")
+	@CrossOrigin
+	public ResponseEntity<String> dropPlan(@PathVariable Long id) { 
+		try {
+			repositoryplan.deleteById(id);
+			return new ResponseEntity<>("Se elimino el plan",HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>("El plan no existe o no se pudo eliminar",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 }

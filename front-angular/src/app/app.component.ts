@@ -18,7 +18,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
-
+    if(this.tokenExpired(this.tokenStorageService.getToken())){
+      console.log("expiro");
+      this.isLoggedIn = false;
+      this.tokenStorageService.signOut();
+      this.router.navigate(['login']);
+    }
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.roles = user.roles;
@@ -32,5 +37,10 @@ export class AppComponent implements OnInit {
   logout() {
     this.tokenStorageService.signOut();
     window.location.reload();
+  }
+
+  private tokenExpired(token: string) {
+    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+    return (Math.floor((new Date).getTime() / 1000)) >= expiry;
   }
 }

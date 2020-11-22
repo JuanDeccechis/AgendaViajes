@@ -16,6 +16,8 @@ import { ProfileComponent } from './profile/profile.component';
 
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { CreateComponent } from './viaje/create/create.component';
+import { ViewComponent } from './viaje/view/view.component';
+import { FiltroPipe } from './filtro.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { CreateComponent } from './viaje/create/create.component';
     BoardUserComponent,
     BoardModeratorComponent,
     ProfileComponent,
-    CreateComponent
+    CreateComponent,
+    ViewComponent,
+    FiltroPipe
   ],
   imports: [
     BrowserModule,

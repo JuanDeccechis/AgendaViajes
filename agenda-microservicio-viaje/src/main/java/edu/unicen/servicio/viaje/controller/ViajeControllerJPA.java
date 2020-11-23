@@ -39,20 +39,20 @@ import io.swagger.v3.oas.annotations.Parameter;
 @RequestMapping("viajes")
 @Api(value="ViajeControllerJpa", description="REST API for travels")
 public class ViajeControllerJPA {
-	
+
 	@Qualifier("viajeRepository")
 	@Autowired
 	private ViajeRepository repository = null;
 	@Qualifier("planRepository")
 	@Autowired
 	private PlanRepository repositoryplan=null;
-	
+
 	public ViajeControllerJPA (@Qualifier("viajeRepository") ViajeRepository repository, @Qualifier("planRepository") PlanRepository repositoryplan) {
 		this.repository = null;
 		this.repositoryplan = null;
 	}
-	
-	
+
+
 	@ApiOperation(value="Get a list with all travels",response=List.class)
 	@GetMapping("/") 
 	@CrossOrigin
@@ -84,7 +84,7 @@ public class ViajeControllerJPA {
 		}
 
 	}
-	
+
 	@ApiOperation(value="Drop travel by id",response=List.class)
 	@DeleteMapping("/{id}")
 	@CrossOrigin
@@ -123,7 +123,7 @@ public class ViajeControllerJPA {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	//agregar un plan a un viaje
 	@ApiOperation(value="add new plan to travel ",response=List.class)
 	@PostMapping("/{id}/plan")
@@ -134,8 +134,9 @@ public class ViajeControllerJPA {
 		return new ResponseEntity<>(repositoryplan.save(p), HttpStatus.OK);
 	}
 	
+
 	@ApiOperation(value="Drop plan by id",response=List.class)
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/plan/{id}")
 	@CrossOrigin
 	public ResponseEntity<String> dropPlan(@PathVariable Long id) { 
 		try {
@@ -144,6 +145,8 @@ public class ViajeControllerJPA {
 		} catch (Exception e) {
 			return new ResponseEntity<>("El plan no existe o no se pudo eliminar",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+
 	//reporte de viajes del usuario en un intervalo de fechas
 	@ApiOperation(value="Get a list with travels with filters by Dates",response=List.class)
 	@GetMapping("/porFechas") 
@@ -163,7 +166,7 @@ public class ViajeControllerJPA {
 		}
 
 	}
-	
+
 	//reporte de viajes del usuario por destino
 	@ApiOperation(value="Get a list with travels with filtersByDestiny",response=List.class)
 	@GetMapping("/porDestino") 
@@ -181,7 +184,7 @@ public class ViajeControllerJPA {
 		}
 
 	}
-	
+
 	//reporte usuarios que mas viajes acumularon
 	@ApiOperation(value="Get users with more travels",response=List.class)
 	@GetMapping("/usuariosFavoritos") 
@@ -199,7 +202,7 @@ public class ViajeControllerJPA {
 		}
 
 	}
-	
+
 	//reporte zonas geograficas mas visitadas
 	@ApiOperation(value="Get destinies more visited",response=List.class)
 	@GetMapping("/zonasMasVisitadas") 
@@ -217,7 +220,7 @@ public class ViajeControllerJPA {
 		}
 
 	}
-	
+
 	//todas las zonas geograficas visitadas por algun usuario
 	@ApiOperation(value="Get destinies more visited",response=List.class)
 	@GetMapping("/zonasGeograficas") 

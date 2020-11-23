@@ -134,7 +134,6 @@ public class ViajeControllerJPA {
 		return new ResponseEntity<>(repositoryplan.save(p), HttpStatus.OK);
 	}
 	
-<<<<<<< HEAD
 	@ApiOperation(value="Drop plan by id",response=List.class)
 	@DeleteMapping("/{id}")
 	@CrossOrigin
@@ -145,7 +144,6 @@ public class ViajeControllerJPA {
 		} catch (Exception e) {
 			return new ResponseEntity<>("El plan no existe o no se pudo eliminar",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-=======
 	//reporte de viajes del usuario en un intervalo de fechas
 	@ApiOperation(value="Get a list with travels with filters by Dates",response=List.class)
 	@GetMapping("/porFechas") 
@@ -236,7 +234,6 @@ public class ViajeControllerJPA {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
->>>>>>> 0d6ea15f31f565784e518d2323e59c5593217127
 	}
 
 }

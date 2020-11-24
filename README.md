@@ -14,6 +14,8 @@ Para instalar y ejecutar la aplicacion, ejecute estos comandos:
 
 ```bash
 git clone https://github.com/JuanDeccechis/AgendaViajes.git
+```
+```bash
 cd AgendaViajes
 ```
 
@@ -37,3 +39,7 @@ npm install && npm start
 ```
 
 Acceder al navegador a la ruta [`http://localhost:4200/`](http://localhost:4200/)
+
+**Nota: Existen dos usuarios precargados en la base para poder acceder a los servicios:
+1- Nombre de Usuario: `mateoz` - contraseña `mateo` -rol de usuario: admin
+2- Nombre de Usuario: `beluguita` - contraseña `belen` -rol de usuario: user

@@ -31,13 +31,13 @@ import lombok.Data;
 		})
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Data	
+@Data
 @Table(name = "plan")
 public abstract class Plan implements Serializable{
-	
+
 	private static final long serialVersionUID = -9039211687587851532L;
-	
-	
+
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_plan;

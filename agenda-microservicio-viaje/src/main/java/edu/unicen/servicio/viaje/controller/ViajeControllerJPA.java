@@ -72,15 +72,15 @@ public class ViajeControllerJPA {
 	@ApiOperation(value="Get a list with  travels by id",response=List.class)
 	@GetMapping("/{id}") 
 	@CrossOrigin
-	public ResponseEntity<Optional<Viaje>> getViajeById(@PathVariable Long id) {
+	public ResponseEntity<List<Viaje>> getViajeById(Authentication auth,@PathVariable Long id) {
 		try {
-			Optional<Viaje> viajes= repository.findById(id);
+			List<Viaje> viajes= repository.findIdByUserName(auth.getName(), id);
 			if (viajes.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 			return new ResponseEntity<>(viajes, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 		}
 
 	}
@@ -133,6 +133,7 @@ public class ViajeControllerJPA {
 		p.setViaje(v);
 		return new ResponseEntity<>(repositoryplan.save(p), HttpStatus.OK);
 	}
+	
 
 	@ApiOperation(value="Drop plan by id",response=List.class)
 	@DeleteMapping("/plan/{id}")

@@ -16,10 +16,12 @@ import edu.unicen.servicio.viaje.model.Viaje;
 public interface ViajeRepository  extends JpaRepository<Viaje,Long>{
 
 	@Query("SELECT v FROM Viaje v WHERE v.nombre = ?1")
-	Viaje findByName(Long name);
+	Viaje findByName(String name);
 	
 	@Query("SELECT v FROM Viaje v JOIN v.usuario u WHERE u.nombre_usuario = ?1")
 	List<Viaje> findAllByUserName(String name);
+	@Query("SELECT v FROM Viaje v JOIN v.usuario u WHERE u.nombre_usuario = ?1 and v.id_viaje=?2")
+	List<Viaje> findIdByUserName(String name, Long id);
 
 	@Query("SELECT v FROM Viaje v JOIN v.usuario u WHERE u.nombre_usuario = ?1 AND v.fecha_inicio BETWEEN ?2 AND ?3")
 	List<Viaje> findAllByUserNameAndDates(String name, Date fechaInicio, Date fechaFin);

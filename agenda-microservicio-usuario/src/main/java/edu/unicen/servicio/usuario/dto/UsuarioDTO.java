@@ -17,6 +17,7 @@ public class UsuarioDTO {
 		this.token = token;
 		this.roles = roles;
 	}
+	public UsuarioDTO() {}
 
 	public String getUsername() {
 		return username;

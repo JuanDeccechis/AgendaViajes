@@ -42,7 +42,7 @@ public abstract class Plan implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_plan;
 	@Column
-	@JsonProperty("Detalle")
+	@JsonProperty("tipo_plan")
 	private String tipo_plan;
 	@Column
 	@JsonProperty("Fecha Inicio")

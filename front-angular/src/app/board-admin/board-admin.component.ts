@@ -12,13 +12,34 @@ export class BoardAdminComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    // this.userService.getAdminBoard().subscribe(
-    //   data => {
-    //     this.content = data;
-    //   },
-    //   err => {
-    //     this.content = JSON.parse(err.error).message;
-    //   }
-    // );
+
+  }
+
+  reporteUsuarios(event){
+    this.userService.getReporteUsuarios().subscribe(
+      data => {
+        console.log(data);
+        
+        this.content = data;
+      },
+      err => {
+        this.content = JSON.parse(err.error).message;
+      }
+    );
+
+  }
+
+  reporteZonas(event){
+    this.userService.getReporteZonas().subscribe(
+      data => {
+        console.log(data);
+
+        this.content = data;
+      },
+      err => {
+        this.content = JSON.parse(err.error).message;
+      }
+    );
+
   }
 }

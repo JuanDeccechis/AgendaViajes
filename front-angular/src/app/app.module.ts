@@ -18,6 +18,7 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { CreateComponent } from './viaje/create/create.component';
 import { ViewComponent } from './viaje/view/view.component';
 import { FiltroPipe } from './filtro.pipe';
+import { CreateplanComponent } from './viaje/plan/createplan/createplan.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { FiltroPipe } from './filtro.pipe';
     ProfileComponent,
     CreateComponent,
     ViewComponent,
-    FiltroPipe
+    FiltroPipe,
+    CreateplanComponent
   ],
   imports: [
     BrowserModule,

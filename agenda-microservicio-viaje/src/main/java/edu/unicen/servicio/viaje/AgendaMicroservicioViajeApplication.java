@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -52,6 +53,7 @@ public class AgendaMicroservicioViajeApplication {
 	@ComponentScan(basePackages = { "com.baeldung.security" })
 	@Configuration
 	class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+		
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
@@ -59,8 +61,9 @@ public class AgendaMicroservicioViajeApplication {
 			.cors().configurationSource(corsConfigurationSource())
 			.and()
 			.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-			.authorizeRequests()
-			.mvcMatchers("/swagger-ui/**", "/configuration/**", "/swagger-resources/**", "/v2/api-docs","/v3/api-docs","/webjars/**").permitAll()
+			.authorizeRequests().antMatchers("/webjars/**").permitAll()
+			.mvcMatchers("/swagger-ui/**", "/configuration/**", "/swagger-resources/**", "/v2/api-docs","/v3/api-docs","/webjars/**", "/**/**/**", "/login", "/error/**").permitAll()
+			.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 			.anyRequest().authenticated();
 
 		}

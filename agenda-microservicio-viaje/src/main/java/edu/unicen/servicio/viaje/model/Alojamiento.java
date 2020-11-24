@@ -21,24 +21,24 @@ public class Alojamiento extends Plan {
 	private static final long serialVersionUID = -5761152425914128175L;
 	
 	@Column 
-	@JsonProperty("Tipo Alojamiento")
+//	@JsonProperty("Tipo Alojamiento")
 	private String tipo_alojamiento;
 	@Column
-	@JsonProperty("Direccion")
+//	@JsonProperty("Direccion")
 	private String direccion;
 	
 	@Column
-	@JsonProperty("Localidad")
+//	@JsonProperty("Localidad")
 	private String localidad;
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@Column(nullable = true)
-	@JsonProperty("Nro. Habitacion")
+//	@JsonProperty("Nro. Habitacion")
 	private String numero_habitacion;
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@Column(nullable = true)
-	@JsonProperty("Cod. Reserva")
+//	@JsonProperty("Cod. Reserva")
 	private String codigo_reserva;
 	
 

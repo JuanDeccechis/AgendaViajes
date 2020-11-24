@@ -1,5 +1,34 @@
 <div class="container">
   <header class="jumbotron">
-    <p>{{ content }}</p>
+    <div class="row mx-md-n2">
+    <button type="button" class="btn btn-secondary btn-lg col px-xs-3" (click)="reporteUsuarios($event)">Generar Reporte de Usuarios</button>
+    <button type="button" class="btn btn-secondary btn-lg col px-xs-3"  (click)="reporteZonas($event)">Generar Reporte Zonas mas Visitadas</button>
+    </div>
   </header>
+
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <ng-container *ngFor ="let item of content[0] | keyvalue">
+          <ng-container *ngIf="item.key == 'id'; then first; else (item.key == 'cantidad' && second) || (item.key != 1 && third)"></ng-container>
+           <ng-template #first></ng-template>
+           <ng-template #second><th scope="col">cantidad de viajes</th></ng-template>
+           <ng-template #third><th scope="col">{{item.key}}</th></ng-template>
+        </ng-container>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor ="let items of content">
+        <tr>
+            <ng-container *ngFor ="let item of items | keyvalue">
+              <ng-container *ngIf="item.key == 'id'; then first; else (item.key == 'type' && second) || (item.key != 1 && third)"></ng-container>
+               <ng-template #first></ng-template>
+               <ng-template #second></ng-template>
+               <ng-template #third><td>{{item.value}}</td></ng-template>
+            </ng-container>
+        </tr>
+      </ng-container>
+
+    </tbody>
+  </table>
 </div>

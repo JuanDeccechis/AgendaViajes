@@ -1,0 +1,323 @@
+<div class="col-md-12">
+  <h3>Elegir tipo de plan a crear</h3>
+  <select class="custom-select "  [(ngModel)]="tipoForm"   (change)="selectForm($event)" name="tipoForm"  id="inlineFormCustomSelect">
+    <!-- <ng-container *ngFor ="let f of tipoForm"> -->
+    <option value="elegir" [ngValue]="elegir">Elegir tipo de plan..</option>
+      <option value="transporte" [ngValue]="transporte">Transporte</option>
+      <option value="alojamiento" [ngValue]="alojamiento">Alojamiento</option>
+    <!-- </ng-container> -->
+  </select>
+  <div class="card card-container"  *ngIf=viewTransporte>
+    <form
+      *ngIf="!isSuccessful"
+      name="formTransporte"
+      (ngSubmit)="onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+
+    <div class="form-group">
+      <label for="tipo_transporte">Tipo de Transporte *</label>
+      <input
+        type="text"
+        class="form-control"
+        name="tipo_transporte"
+        [(ngModel)]="formTransporte.tipo_transporte"
+        required
+        tipo_transporte
+        #tipo_transporte="ngModel"
+      />
+      <div class="alert-danger" *ngIf="f.submitted && tipo_transporte.invalid">
+        <div *ngIf="email.errors.required">Tipo de transporte es requerido</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="ciudad_origen">Ciudad Origen *</label>
+      <input
+        type="text"
+        class="form-control"
+        name="ciudad_origen"
+        [(ngModel)]="formTransporte.ciudad_origen"
+        required
+        ciudad_origen
+        #ciudad_origen="ngModel"
+      />
+      <div class="alert-danger" *ngIf="f.submitted && ciudad_origen.invalid">
+        <div *ngIf="email.errors.required">Ciudad de origen es requerido</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="ciudad_destino">Ciudad Destino *</label>
+      <input
+        type="text"
+        class="form-control"
+        name="ciudad_destino"
+        [(ngModel)]="formTransporte.ciudad_destino"
+        required
+        ciudad_destino
+        #ciudad_destino="ngModel"
+      />
+      <div class="alert-danger" *ngIf="f.submitted && ciudad_destino.invalid">
+        <div *ngIf="email.errors.required">Ciudad de destino es requerido</div>
+      </div>
+    </div>
+
+
+      <div class="form-group">
+        <label for="fecha_inicio">Fecha de Inicio *</label>
+        <input
+          type="date"
+          class="form-control"
+          name="fecha_inicio"
+          [(ngModel)]="formTransporte.fecha_inicio"
+          required
+          fecha_inicio
+          #fecha_inicio="ngModel"
+        />
+        <div class="alert-danger" *ngIf="f.submitted && fecha_inicio.invalid">
+          <div *ngIf="username.errors.required">Fecha de inicio es requerida</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="fecha_fin">Fecha de Fin *</label>
+        <input
+          type="date"
+          class="form-control"
+          name="fecha_fin"
+          [(ngModel)]="formTransporte.fecha_fin"
+          required
+          fecha_fin
+          #fecha_fin="ngModel"
+        />
+        <div class="alert-danger" *ngIf="f.submitted && fecha_fin.invalid">
+          <div *ngIf="username.errors.required">Fecha de fin es requerida</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="detalle">Detalle *</label>
+        <input
+          type="<textarea"
+          class="form-control"
+          name="detalle"
+          [(ngModel)]="formTransporte.descripcion"
+          required
+          detalle
+          #detalle="ngModel"
+        />
+        <div class="alert-danger" *ngIf="f.submitted && detalle.invalid">
+          <div *ngIf="email.errors.required">El detalle es requerido</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="terminal_salida">Terminal de Salida</label>
+        <input
+          type="text"
+          class="form-control"
+          name="terminal_salida"
+          [(ngModel)]="formTransporte.terminal_salida"
+          terminal_salida
+          #terminal_salida="ngModel"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="terminal_llegada">Terminal de Llegada</label>
+        <input
+          type="text"
+          class="form-control"
+          name="terminal_llegada"
+          [(ngModel)]="formTransporte.terminal_llegada"
+          terminal_llegada
+          #terminal_llegada="ngModel"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="cod_reserva">Codigo de Reserva</label>
+        <input
+          type="text"
+          class="form-control"
+          name="cod_reserva"
+          [(ngModel)]="formTransporte.cod_reserva"
+          cod_reserva
+          #cod_reserva="ngModel"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="nro_asiento">Numero de Asiento</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nro_asiento"
+          [(ngModel)]="formTransporte.nro_asiento"
+          nro_asiento
+          #nro_asiento="ngModel"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="nro_viaje">Numero de Viaje</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nro_viaje"
+          [(ngModel)]="formTransporte.nro_viaje"
+          nro_viaje
+          #nro_viaje="ngModel"
+        />
+      </div>
+
+
+
+      <div class="form-group">
+        <button class="btn btn-primary btn-block">Agregar Plan</button>
+      </div>
+      <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+        Error al agregar el viaje, revise los campos!<br />{{ errorMessage }}
+      </div>
+    </form>
+
+    <div class="alert alert-success" *ngIf="isSuccessful">
+      El viaje se ha agregado a la agenda.
+    </div>
+  </div>
+
+
+  <div class="card card-container"  *ngIf=viewAlojamiento>
+    <form
+      *ngIf="!isSuccessful"
+      name="formAlojamiento"
+      (ngSubmit)="onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+
+    <div class="form-group">
+      <label for="detalle">Detalle *</label>
+      <input
+        type="<textarea"
+        class="form-control"
+        name="detalle"
+        [(ngModel)]="formAlojamiento.descripcion"
+        required
+        detalle
+        #detalle="ngModel"
+      />
+      <div class="alert-danger" *ngIf="f.submitted && detalle.invalid">
+        <div *ngIf="email.errors.required">El detalle es requerido</div>
+      </div>
+    </div>
+
+
+
+      <div class="form-group">
+        <label for="fecha_inicio">Fecha de Inicio *</label>
+        <input
+          type="date"
+          class="form-control"
+          name="fecha_inicio"
+          [(ngModel)]="formAlojamiento.fecha_inicio"
+          required
+          fecha_inicio
+          #fecha_inicio="ngModel"
+        />
+        <div class="alert-danger" *ngIf="f.submitted && fecha_inicio.invalid">
+          <div *ngIf="username.errors.required">Fecha de inicio es requerida</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="fecha_fin">Fecha de Fin *</label>
+        <input
+          type="date"
+          class="form-control"
+          name="fecha_fin"
+          [(ngModel)]="formAlojamiento.fecha_fin"
+          required
+          fecha_fin
+          #fecha_fin="ngModel"
+        />
+        <div class="alert-danger" *ngIf="f.submitted && fecha_fin.invalid">
+          <div *ngIf="username.errors.required">Fecha de fin es requerida</div>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label for="tipo_alojamiento">Tipo Alojamiento *</label>
+        <input
+          type="text"
+          class="form-control"
+          name="tipo_alojamiento"
+          [(ngModel)]="formAlojamiento.tipo_alojamiento"
+          tipo_alojamiento
+          #tipo_alojamiento="ngModel"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="direccion">Direccion *</label>
+        <input
+          type="text"
+          class="form-control"
+          name="direccion"
+          [(ngModel)]="formAlojamiento.direccion"
+          direccion
+          #direccion="ngModel"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="localidad">Localidad *</label>
+        <input
+          type="text"
+          class="form-control"
+          name="localidad"
+          [(ngModel)]="formAlojamiento.localidad"
+          localidad
+          #localidad="ngModel"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="cod_reserva">Codigo de Reserva</label>
+        <input
+          type="text"
+          class="form-control"
+          name="cod_reserva"
+          [(ngModel)]="formAlojamiento.cod_reserva"
+          cod_reserva
+          #cod_reserva="ngModel"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="numero_habitacion">Numero de Habitacion</label>
+        <input
+          type="text"
+          class="form-control"
+          name="numero_habitacion"
+          [(ngModel)]="formAlojamiento.numero_habitacion"
+          numero_habitacion
+          #numero_habitacion="ngModel"
+        />
+      </div>
+
+
+
+      <div class="form-group">
+        <button class="btn btn-primary btn-block">Agregar Plan</button>
+      </div>
+      <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+        Error al agregar el viaje, revise los campos!<br />{{ errorMessage }}
+      </div>
+    </form>
+
+    <div class="alert alert-success" *ngIf="isSuccessful">
+      El viaje se ha agregado a la agenda.
+    </div>
+  </div>
+</div>

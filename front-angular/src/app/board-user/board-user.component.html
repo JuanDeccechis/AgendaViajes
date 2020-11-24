@@ -1,42 +1,64 @@
 <div class="container">
   <header class="jumbotron">
     <!-- <div *ngFor="let player of allPlayers">
-      {{player.firstName}}
-    </div> -->
-    <!-- <p>{{ content | json }}</p> -->
-    <div class="text-center">
-      <h4>Generar reporte</h4>
-      
-    </div>
-    <form class="form-inline"   #myForm="ngForm" style="margin-top:40px">
-      <label for="example-date-input">Fecha desde: </label>
-      <input class="form-control" type="date" [(ngModel)]="desde" name="fechadesde" id="example-date-input">
-      <label for="example-date-input">Fecha hasta: </label>
-      <input class="form-control" type="date" [(ngModel)]="hasta" name="fechahasta" id="example-date-input">
-      <label class="mr-sm-2" for="inlineFormCustomSelect">Estado: </label>
-      <select class="custom-select"   [(ngModel)]="estado" name="estado" id="inlineFormCustomSelect">
-        <option [value]="null" value="null">Elegir..</option>
-        <option [value]="pendiente" value="pendiente">Pendiente</option>
-        <option [value]="realizado" value="realizado">Realizado</option>
-      </select>
-      <label class="mr-sm-2" for="inlineFormCustomSelect">Region: </label>
-      <select class="custom-select "  [(ngModel)]="region" name="region" id="inlineFormCustomSelect">
-        <ng-container *ngFor ="let region of regiones">
-          <option value="{{region.nombre}}" [value]="region.nombre">{{region.nombre}}</option>
-        </ng-container>
-      </select>
-    </form>
-    
-    
-  </header>
-  
-  <ng-container *ngFor ="let viaje of viajes">
-    <ng-container *ngFor ="let plan of viaje.planes | filtro: desde: hasta: estado: region">
+    {{player.firstName}}
+  </div> -->
+  <!-- <p>{{ content | json }}</p> -->
+  <div class="text-center">
+    <h4>Generar reporte</h4>
+
+  </div>
+  <form class="form-inline"   #myForm="ngForm" style="margin-top:40px">
+    <label for="example-date-input">Fecha desde: </label>
+    <input class="form-control" type="date" [(ngModel)]="desde" name="fechadesde" id="example-date-input">
+    <label for="example-date-input">Fecha hasta: </label>
+    <input class="form-control" type="date" [(ngModel)]="hasta" name="fechahasta" id="example-date-input">
+    <label class="mr-sm-2" for="inlineFormCustomSelect">Region: </label>
+    <select class="custom-select "  [(ngModel)]="region" name="region"  id="inlineFormCustomSelect">
+      <ng-container *ngFor ="let region of regiones">
+        <option value="{{region.nombre}}" [value]="region.nombre">{{region.nombre}}</option>
+      </ng-container>
+    </select>
+    <button type="button" class="btn btn-secondary" (click)="generarReporte($event)">Generar</button>
+  </form>
+
+</header>
+
+
+
+<ng-container *ngFor ="let viaje of viajes">
+  <div class="card m-5 pb-5">
+    <div class="container">
       <div class="text-center">
-        <h4>Plan de {{plan.type}}</h4>
-        
+        <h4>Viaje</h4>
+
       </div>
-      
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <ng-container *ngFor ="let table of viaje_tables">
+            <th scope="col">{{table.nombre}}</th>
+          </ng-container>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{viaje.nombre}}</td>
+          <td>{{viaje.ciudad_destino}}</td>
+          <td>{{viaje.ciudad_origen}}</td>
+          <td>{{viaje.fecha_inicio}}</td>
+          <td>{{viaje.fecha_fin}}</td>
+          <td>{{viaje.descripcion}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <h5>Planes del Viaje:</h5>
+    <ng-container *ngFor ="let plan of viaje.planes">
+      <div class="text-center">
+        <h6>Plan de {{plan.type}}</h6>
+
+      </div>
+
       <table class="table table-bordered">
         <thead class="thead-dark">
           <tr>
@@ -58,12 +80,14 @@
             </ng-container>
           </tbody>
         </table>
-        
+
       </ng-container>
-    </ng-container>
-    
-    
-    
-    
-  </div>
-  
+    </div>
+
+    </div>
+  </ng-container>
+
+
+
+
+</div>

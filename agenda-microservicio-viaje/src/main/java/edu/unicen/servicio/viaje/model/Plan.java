@@ -42,14 +42,14 @@ public abstract class Plan implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_plan;
 	@Column
-	@JsonProperty("Detalle")
+//	@JsonProperty("Detalle")
 	private String tipo_plan;
 	@Column
-	@JsonProperty("Fecha Inicio")
+//	@JsonProperty("Fecha Inicio")
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="UTC")
 	private Date fecha_inicio;
 	@Column
-	@JsonProperty("Fecha Fin")
+//	@JsonProperty("Fecha Fin")
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="UTC")
 	private Date fecha_fin;
 	@ManyToOne

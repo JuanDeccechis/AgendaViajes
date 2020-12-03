@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ViewComponent implements OnInit {
   id: number;
-  viaje: [];
+  viajes: [];
   viaje_tables = [{"nombre":"Titulo",},{"nombre":"Destino",},{"nombre":"Origen",},{"nombre":"Fecha Inicio",},{"nombre":"Fecha Fin",},{"nombre":"Descripcion",}];
   transporte_tables = [{"nombre":"Nombre",},{"nombre":"Transporte",},{"nombre":"Fecha Inicio",},{"nombre":"Fecha Fin",},{"nombre":"Ciudad Origen",},{"nombre":"Ciudad Destino",},{"nombre":"Terminal Salida",},{"nombre":"Terminal Llegada",},{"nombre":"Nro Asiento",},{"nombre":"Nro Viaje",},{"nombre":"Codigo Reserva",}];
   alojamiento_tables = [{"nombre":"",},{"nombre":"Destino",},{"nombre":"Origen",},{"nombre":"Fecha Inicio",},{"nombre":"Fecha Fin",},{"nombre":"Descripcion",}];
@@ -23,7 +23,8 @@ export class ViewComponent implements OnInit {
     console.log(this.id);
     this.userService.getViaje (this.id).subscribe(
       data => {
-        this.viaje = data;
+        this.viajes = data;
+        console.log(data);
 
         // console.log(Object.keys(this.viaje.planes[0]));
   });

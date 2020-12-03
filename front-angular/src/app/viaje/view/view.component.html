@@ -3,7 +3,7 @@
     <h4>Viaje</h4>
   </div>
 
-
+<ng-container *ngFor ="let viaje of viajes">
     <!-- <a href="#" routerLink="/home/" class="btn btn-primary">Back</a> -->
     <div class="text-right">
       <a href="#" [routerLink]="['/plan/',viaje.id_viaje,'create']" class="btn btn-outline-success">Agregar Plan</a>
@@ -57,5 +57,5 @@
     </table>
 
     </ng-container>
-
+</ng-container>
 </div>
